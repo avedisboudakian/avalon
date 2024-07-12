@@ -6,7 +6,7 @@ const Mission = (props) => {
   const mission = props.gameParameters.missionsBreakdown[missionIndex - 1];
   const leader = props.players[props.indexOfLeader].name;
 
-  // renders a button per player to add the player to the mission's team
+  // Renders a button per player to add the player to the mission's team
   const renderPlayerButtons = () => {
     return props.players.map((player) => {
       return (
@@ -21,7 +21,7 @@ const Mission = (props) => {
     });
   };
 
-  //renders a list of the selected mission's team player
+  // Renders a list of the selected mission's team players
   const renderSelectedTeam = () => {
     return (
       <ol>
@@ -32,12 +32,11 @@ const Mission = (props) => {
     );
   };
 
-  //render the reject team button and check for win condition if 5 missions have been rejected in single round
+  // Render the reject team button and check for win condition if 5 missions have been rejected in a single round
   const renderRejectedButton = (rejectedTeamsCount) => {
     if (rejectedTeamsCount === 4)
       return (
         <Link to="/endgame">
-          {" "}
           <button
             className="btn btn-outline-danger mr-2"
             onClick={() => props.onHandleTeamRejected(mission)}
@@ -57,7 +56,7 @@ const Mission = (props) => {
       );
   };
 
-  // renders the confirm button that goes to the vote page and reset the count of rejected teams
+  // Render the confirm button that goes to the vote page and reset the count of rejected teams
   const renderConfirmButton = () => {
     return (
       <Link to={`/missions/${missionIndex}/vote${missionIndex}`}>
@@ -88,7 +87,7 @@ const Mission = (props) => {
         <div>
           <h5>
             Vote for the proposed team. Has it been approved by a majority of
-            players ?
+            players?
           </h5>
           {props.rejectedTeamsCount === 4 ? (
             <p>

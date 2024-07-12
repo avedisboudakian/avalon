@@ -8,7 +8,7 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 3, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 3, team: [], votes: [] },
     ],
-    roles: ["Merlin", "Good guy", "Good guy", "Assassin", "Bad guy"],
+    roles: ["Merlin", "Good guy", "Good guy", "Assassin", "Bad guy", "Lovers", "Jester"],
   },
   {
     playerCount: 6,
@@ -19,14 +19,7 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 3, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 4, team: [], votes: [] },
     ],
-    roles: [
-      "Merlin",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Assassin",
-      "Bad guy",
-    ],
+    roles: ["Merlin", "Good guy", "Good guy", "Good guy", "Assassin", "Bad guy", "Lovers", "Jester"],
   },
   {
     playerCount: 7,
@@ -37,15 +30,7 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 4, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 4, team: [], votes: [] },
     ],
-    roles: [
-      "Merlin",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Assassin",
-      "Bad guy",
-      "Bad guy",
-    ],
+    roles: ["Merlin", "Good guy", "Good guy", "Good guy", "Assassin", "Bad guy", "Bad guy", "Lovers", "Jester"],
   },
   {
     playerCount: 8,
@@ -56,16 +41,7 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 5, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 5, team: [], votes: [] },
     ],
-    roles: [
-      "Merlin",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Assassin",
-      "Bad guy",
-      "Bad guy",
-    ],
+    roles: ["Merlin", "Good guy", "Good guy", "Good guy", "Good guy", "Assassin", "Bad guy", "Bad guy", "Lovers", "Jester"],
   },
   {
     playerCount: 9,
@@ -76,17 +52,7 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 5, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 5, team: [], votes: [] },
     ],
-    roles: [
-      "Merlin",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Assassin",
-      "Bad guy",
-      "Bad guy",
-    ],
+    roles: ["Merlin", "Good guy", "Good guy", "Good guy", "Good guy", "Good guy", "Assassin", "Bad guy", "Bad guy", "Lovers", "Jester"],
   },
   {
     playerCount: 10,
@@ -97,19 +63,34 @@ const GAME_PARAMETERS = [
       { missionIndex: 4, numberOfPlayers: 5, team: [], votes: [] },
       { missionIndex: 5, numberOfPlayers: 5, team: [], votes: [] },
     ],
-    roles: [
-      "Merlin",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Good guy",
-      "Assassin",
-      "Bad guy",
-      "Bad guy",
-      "Bad guy",
-    ],
+    roles: ["Merlin", "Good guy", "Good guy", "Good guy", "Good guy", "Good guy", "Assassin", "Bad guy", "Bad guy", "Bad guy", "Lovers", "Jester"],
   },
 ];
 
-export default GAME_PARAMETERS;
+const ROLES = {
+  MERLIN: 'Merlin',
+  PERCIVAL: 'Percival',
+  ASSASSIN: 'Assassin',
+  MORDRED: 'Mordred',
+  MORGANA: 'Morgana',
+  OBERON: 'Oberon',
+  MINION: 'Minion',
+  SERVANT: 'Good guy',
+  LOVERS: 'Lovers',
+  JESTER: 'Jester'
+};
+
+const ROLE_DESCRIPTIONS = {
+  MERLIN: 'Knows the evil players except Mordred.',
+  PERCIVAL: 'Knows who Merlin is.',
+  ASSASSIN: 'Can assassinate Merlin at the end of the game.',
+  MORDRED: 'Unknown to Merlin.',
+  MORGANA: 'Appears as Merlin to Percival.',
+  OBERON: 'Unknown to evil players.',
+  MINION: 'An evil minion of Mordred.',
+  SERVANT: 'A loyal servant of Arthur.',
+  LOVERS: 'Two good players who know each other. If both survive and good wins, they win. If one dies, they both die.',
+  JESTER: 'A neutral player whose goal is to be mistaken for Merlin. If selected as Merlin by the Assassins, only the Jester wins.'
+};
+
+export { GAME_PARAMETERS, ROLES, ROLE_DESCRIPTIONS };

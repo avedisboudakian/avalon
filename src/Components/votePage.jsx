@@ -1,12 +1,16 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 
-import VoteButtons from "./vote buttons";
+import VoteButtons from "./votebuttons";
 
 const VotePage = (props) => {
   const { voteIndex } = useParams();
   let missionIndex = voteIndex.charAt(voteIndex.length - 1);
-  const mission = props.gameParameters.missionsBreakdown[missionIndex - 1];
+  const mission = props.gameParameters?.missionsBreakdown[missionIndex - 1];
+
+  if (!mission) {
+    return <div className="tile text-light text-center">Mission not found.</div>;
+  }
 
   return (
     <div className="tile text-light text-center">

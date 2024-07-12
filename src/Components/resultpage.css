@@ -22,42 +22,45 @@
   border: solid 1px black;
 }
 
-.delay2 {
-  opacity: 0;
-  animation: delayedApparition 0.75s 3s forwards;
-}
-.delay3 {
-  opacity: 0;
-  animation: delayedApparition 0.75s 4.5s forwards;
-}
-.delay4 {
-  opacity: 0;
-  animation: delayedApparition 0.75s 6s forwards;
-}
-.delay5 {
-  opacity: 0;
-  animation: delayedApparition 0.75s 7.5s forwards;
-}
-
-.vote-container:nth-child(1) {
-  opacity: 0;
-  animation: delayedApparition 0.75s 1s forwards;
-}
-.vote-container:nth-child(2) {
-  opacity: 0;
-  animation: delayedApparition 0.75s 2.5s forwards;
-}
-.vote-container:nth-child(3) {
-  opacity: 0;
-  animation: delayedApparition 0.75s 4s forwards;
-}
-.vote-container:nth-child(4) {
-  opacity: 0;
-  animation: delayedApparition 0.75s 5.5s forwards;
-}
+.delay2,
+.delay3,
+.delay4,
+.delay5,
+.vote-container:nth-child(1),
+.vote-container:nth-child(2),
+.vote-container:nth-child(3),
+.vote-container:nth-child(4),
 .vote-container:nth-child(5) {
   opacity: 0;
-  animation: delayedApparition 0.75s 7s forwards;
+  animation: delayedApparition 0.75s forwards;
+}
+
+.delay2 {
+  animation-delay: 3s;
+}
+.delay3 {
+  animation-delay: 4.5s;
+}
+.delay4 {
+  animation-delay: 6s;
+}
+.delay5 {
+  animation-delay: 7.5s;
+}
+.vote-container:nth-child(1) {
+  animation-delay: 1s;
+}
+.vote-container:nth-child(2) {
+  animation-delay: 2.5s;
+}
+.vote-container:nth-child(3) {
+  animation-delay: 4s;
+}
+.vote-container:nth-child(4) {
+  animation-delay: 5.5s;
+}
+.vote-container:nth-child(5) {
+  animation-delay: 7s;
 }
 
 @-webkit-keyframes delayedApparition {

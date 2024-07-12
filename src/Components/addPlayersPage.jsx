@@ -2,16 +2,14 @@ import React from "react";
 import InputAddPlayer from "./inputAddPlayer";
 import PlayerList from "./playerList";
 import { Link } from "react-router-dom";
+import { GAME_PARAMETERS } from "./GAME_PARAMETERS"; // Import as named export
 
 const AddPlayersPage = (props) => {
-  //Display a confirm Button once the minimum amount of Players has been reached
-
-  let displayConfirmButton = () => {
+  const displayConfirmButton = () => {
     let { players, specialCharacter } = props;
     const disabledStartButton = (
       <div className="d-flex justify-content-center">
         <p className="alert alert-warning" disabled>
-          {" "}
           Add more players or change special characters settings to start
         </p>
       </div>
@@ -52,7 +50,12 @@ const AddPlayersPage = (props) => {
         <div className="d-flex justify-content-center">
           <button
             className="btn btn-outline-success"
-            onClick={props.setGameParameters}
+            onClick={() => {
+              const gameParams = GAME_PARAMETERS.find(
+                (param) => param.playerCount === players.length
+              );
+              props.setGameParameters(gameParams); // Set game parameters based on player count
+            }}
           >
             CONFIRM
           </button>

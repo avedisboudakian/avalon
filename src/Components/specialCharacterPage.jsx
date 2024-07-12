@@ -9,6 +9,8 @@ class SpecialCharacterPage extends Component {
       MorganaClicked: false,
       PercyClicked: false,
       OberonClicked: false,
+      LoversClicked: false,
+      JesterClicked: false,
     };
   }
 
@@ -22,12 +24,18 @@ class SpecialCharacterPage extends Component {
         this.setState({ PercyClicked: true });
         break;
       case "Morgana":
-        return this.state.PercyClicked === false
-          ? null
-          : this.setState({ MorganaClicked: true });
+        this.setState({ MorganaClicked: true });
         break;
       case "Oberon":
         this.setState({ OberonClicked: true });
+        break;
+      case "Lovers":
+        this.setState({ LoversClicked: true });
+        break;
+      case "Jester":
+        this.setState({ JesterClicked: true });
+        break;
+      default:
         break;
     }
   };
@@ -38,22 +46,28 @@ class SpecialCharacterPage extends Component {
         return this.state.MordredClicked === false
           ? "btn btn-outline-danger"
           : "btn btn-danger";
-        break;
       case "Morgana":
         return this.state.MorganaClicked === false
           ? "btn btn-outline-danger"
           : "btn btn-danger";
-        break;
       case "Oberon":
         return this.state.OberonClicked === false
           ? "btn btn-outline-danger"
           : "btn btn-danger";
-        break;
       case "Percy":
         return this.state.PercyClicked === false
           ? "btn btn-outline-success"
           : "btn btn-success";
-        break;
+      case "Lovers":
+        return this.state.LoversClicked === false
+          ? "btn btn-outline-success"
+          : "btn btn-success";
+      case "Jester":
+        return this.state.JesterClicked === false
+          ? "btn btn-outline-warning"
+          : "btn btn-warning";
+      default:
+        return "btn btn-outline-light";
     }
   };
 
@@ -63,6 +77,8 @@ class SpecialCharacterPage extends Component {
       MorganaClicked: false,
       PercyClicked: false,
       OberonClicked: false,
+      LoversClicked: false,
+      JesterClicked: false,
     });
     this.props.onClearSpecialCharacters();
   };
@@ -83,11 +99,20 @@ class SpecialCharacterPage extends Component {
         ability:
           "Morgana's power is that she appears to be Merlin - revealing herself to Percival as Merlin.",
       },
-
       {
         name: "Oberon",
         ability:
           "Whilst being on the side of the evil, Oberon does not reveal himself to the other evil players, nor does he gain knowledge of the other evil players.",
+      },
+      {
+        name: "Lovers",
+        ability:
+          "Two players are lovers and share an additional win condition if both survive.",
+      },
+      {
+        name: "Jester",
+        ability:
+          "The Jester wins alone if they are assassinated as Merlin. Otherwise, they win with the Good guys.",
       },
     ];
 

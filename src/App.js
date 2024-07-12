@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import AddPlayersPage from "./Components/addPlayersPage";
-import GAME_PARAMETERS from "./Components/GAME_PARAMETERS";
+import { GAME_PARAMETERS } from "./Components/GAME_PARAMETERS";
 import GameRulesPage from "./Components/gameRulesPage";
 import PlayerRolesPage from "./Components/playerRolesPage";
 import MissionsPage from "./Components/missionsPage";
-
 import Mission from "./Components/mission";
 import VotePage from "./Components/votePage";
 import ResultPage from "./Components/resultpage";
@@ -20,22 +19,21 @@ class App extends Component {
     this.state = {
       inputAddPlayer: "",
       players: [],
-      gameParameters: "",
+      gameParameters: null,
       specialCharacters: [],
       indexOfLeader: 0,
       rejectedTeamsCount: 0,
       missionSuccess: 0,
       missionFailure: 0,
       merlinKilled: false,
+      assassinationTarget: null,
     };
   }
 
-  // Update this.state.inputAddPlayer
   handleChange = (e) => {
     this.setState({ inputAddPlayer: e.target.value });
   };
 
-  // Add the new player in the players array and update the state
   handleAddPlayer = (e) => {
     e.preventDefault();
     if (this.state.inputAddPlayer === "") return;
@@ -54,7 +52,6 @@ class App extends Component {
     this.setState({ players: players, inputAddPlayer: "" });
   };
 
-  // Reset this.state.players to []
   handleReset = () => {
     const players = [];
     const specialCharacters = [];
@@ -64,18 +61,23 @@ class App extends Component {
     });
   };
 
-  // Set the game rules on click of the "confirm players button"
-  handleSetGameParameters = () => {
-    let playerCount = [...this.state.players].length;
-    // return the set of rules for the amount of players in the list:
-    const gameParameters = GAME_PARAMETERS[playerCount - 5];
-    this.setState({
-      gameParameters,
-    });
+  handleSetGameParameters = (gameParams) => {
+    this.setState({ gameParameters: gameParams });
+  };
+
+  handleAddSpecialCharacter = (name) => {
+    if (!this.state.specialCharacters.includes(name)) {
+      this.setState((prevState) => ({
+        specialCharacters: [...prevState.specialCharacters, name],
+      }));
+    }
+  };
+
+  handleClearSpecialCharacters = () => {
+    this.setState({ specialCharacters: [] });
   };
 
   // Method to shuffle an array
-
   shuffle = (arr) => {
     let currentIndex = arr.length,
       temporaryValue,
@@ -92,35 +94,57 @@ class App extends Component {
   };
 
   // randomly assigned a role to each player
-
   handleOnSetPlayerRoles = () => {
-    let roles = [...this.state.gameParameters.roles].join(",");
+    let roles = [...this.state.gameParameters.roles];
     let specialCharacters = [...this.state.specialCharacters];
 
-    //removes a bad guy and replaces it with Mordred
+    // Ensure Merlin and Assassin are included
+    if (!roles.includes("Merlin")) roles.push("Merlin");
+    if (!roles.includes("Assassin")) roles.push("Assassin");
+
+    // Add selected special characters to roles
     if (specialCharacters.includes("Mordred"))
-      roles = roles.replace(/Bad guy/, "Mordred");
-    //removes a bad guy and replaces it with Morgana
+      roles = roles.map((role) => (role === "Bad guy" ? "Mordred" : role));
     if (specialCharacters.includes("Morgana"))
-      roles = roles.replace(/Bad guy/, "Morgana");
-    //removes a Good guy and replaces it with Percy
+      roles = roles.map((role) => (role === "Bad guy" ? "Morgana" : role));
     if (specialCharacters.includes("Percy"))
-      roles = roles.replace(/Good guy/, "Percy");
-    //removes a bad guy and replaces it with Oberon
+      roles = roles.map((role) => (role === "Good guy" ? "Percy" : role));
     if (specialCharacters.includes("Oberon"))
-      roles = roles.replace(/Bad guy/, "Oberon");
+      roles = roles.map((role) => (role === "Bad guy" ? "Oberon" : role));
 
-    roles = roles.split(",");
+    if (specialCharacters.includes("Lovers")) {
+      let goodGuys = roles.filter((role) => role === "Good guy");
+      if (goodGuys.length >= 2) {
+        goodGuys[0] = "Lover";
+        goodGuys[1] = "Lover";
+      } else if (goodGuys.length === 1) {
+        goodGuys[0] = "Lover";
+        roles[roles.indexOf("Merlin")] = "Lover";
+      }
+      roles = roles.map((role) =>
+        role === "Good guy" && goodGuys.length > 0 ? goodGuys.pop() : role
+      );
+    }
 
+    if (specialCharacters.includes("Jester")) {
+      let goodGuys = roles.filter((role) => role === "Good guy");
+      if (goodGuys.length > 0) {
+        roles[roles.indexOf(goodGuys[0])] = "Jester";
+      }
+    }
+
+    roles = roles.slice(0, this.state.players.length); // Ensure roles length matches players length
     this.shuffle(roles);
-    const players = this.state.players.map((player) => {
-      player.role = roles[player.id - 1];
+
+    const players = this.state.players.map((player, index) => {
+      player.role = roles[index];
       return player;
     });
+
+    console.log("Players with roles: ", players); // Debugging
+
     this.setState({ players: players });
   };
-
-  // Add selected players to the team for the mission
 
   handleSelectPlayerForMission = (player, mission) => {
     let index = this.state.gameParameters.missionsBreakdown.indexOf(mission);
@@ -146,7 +170,6 @@ class App extends Component {
     this.setState({ gameParameters: newGameParameters });
   };
 
-  // reset the team for the mission, increase indexOfLeader to get new leader and increase count of failed missions
   handleTeamRejected = (mission) => {
     let rejectedTeamsCount = this.state.rejectedTeamsCount;
 
@@ -182,7 +205,6 @@ class App extends Component {
       : this.setState({ indexOfLeader: this.state.indexOfLeader + 1 });
   };
 
-  // add "Pass" in the mission's vote array
   handlePassVote = (mission) => {
     let missionsObj = this.state.gameParameters.missionsBreakdown;
     let missions = [...missionsObj];
@@ -199,7 +221,6 @@ class App extends Component {
     this.setState({ gameParameters: newGameParameters });
   };
 
-  //add "Fail in the mission's vote array"
   handleFailVote = (mission) => {
     let missionsObj = this.state.gameParameters.missionsBreakdown;
     let missions = [...missionsObj];
@@ -216,25 +237,6 @@ class App extends Component {
     this.setState({ gameParameters: newGameParameters });
   };
 
-  handleAddSpecialCharacter = (name) => {
-    if (!this.state.specialCharacters.includes("Percy") && name === "Morgana")
-      return window.alert(
-        "Percy needs to be selected before you can add Morgana"
-      );
-    if (this.state.specialCharacters.includes(name))
-      return window.alert(`You already added ${name} to the game`);
-    let specialCharacters = [...this.state.specialCharacters];
-    specialCharacters.push(name);
-    this.setState({ specialCharacters });
-  };
-
-  handleClearSpecialCharacters = () => {
-    let specialCharacters = [...this.state.specialCharacters];
-    specialCharacters = [];
-    this.setState({ specialCharacters });
-  };
-
-  //update the win and lose counts after the vote phase
   handleUpdateResults = (mission, players) => {
     let missionSuccess = this.state.missionSuccess;
     let missionFailure = this.state.missionFailure;
@@ -271,9 +273,11 @@ class App extends Component {
   };
 
   handleAssassination = (player) => {
-    if (player.role === "Merlin")
-      return this.setState({ merlinKilled: !this.state.merlinKilled });
-    else return;
+    if (player.role === "Merlin") {
+      this.setState({ merlinKilled: true, assassinationTarget: player.name });
+    } else {
+      this.setState({ assassinationTarget: player.name });
+    }
   };
 
   render() {
@@ -366,6 +370,7 @@ class App extends Component {
                   missionSuccess={this.state.missionSuccess}
                   missionFailure={this.state.missionFailure}
                   merlinKilled={this.state.merlinKilled}
+                  assassinationTarget={this.state.assassinationTarget}
                 />
               )}
             />

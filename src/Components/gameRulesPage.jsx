@@ -2,19 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const GameRulesPage = (props) => {
-  // Get the amount of good guys from the Game Parameters
+  if (!props.gameParameters) {
+    return <div>Loading...</div>;
+  }
 
+  // Log gameParameters to debug
+  console.log(props.gameParameters);
+
+  // Get the amount of good guys from the Game Parameters
   let getGoodGuys = () => {
-    if (props.gameParameters === "") return 0;
     return props.gameParameters.roles.filter(
       (role) => role === "Good guy" || role === "Merlin" || role === "Percy"
     ).length;
   };
 
   // Get the amount of Bad guys from the Game Parameters
-
   let getBadGuys = () => {
-    if (props.gameParameters === "") return 0;
     return props.gameParameters.roles.filter(
       (role) =>
         role === "Bad guy" ||
@@ -27,7 +30,6 @@ const GameRulesPage = (props) => {
 
   // get the amount of players per mission based on game rules
   let getMissionBreakdown = () => {
-    if (props.gameParameters === "") return null;
     return props.gameParameters.missionsBreakdown.map((mission) => {
       return (
         <p key={mission.missionIndex}>

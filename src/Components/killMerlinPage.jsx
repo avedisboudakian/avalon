@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const KillMerlinPage = (props) => {
-  //Get the name of the current Assassin
   const getAssassin = () => {
     return props.players.filter((player) => player.role === "Assassin")[0].name;
   };
 
-  //Render a button per Good guy and Oberon for the assassin to choose from
   const renderKillOptions = () => {
     return props.players
       .filter(
@@ -15,7 +13,9 @@ const KillMerlinPage = (props) => {
           player.role === "Merlin" ||
           player.role === "Good guy" ||
           player.role === "Percy" ||
-          player.role === "Oberon"
+          player.role === "Oberon" ||
+          player.role === "Lover" ||
+          player.role === "Jester"
       )
       .map((player) => (
         <Link to="/endgame" key={player.id}>
@@ -33,7 +33,7 @@ const KillMerlinPage = (props) => {
     <div className="text-center text-light tile">
       <h3>Evil's Last Chance - Assassinate Merlin</h3>
       <p>
-        3 quests were completed <span className="good">succesfully</span>. Evil
+        3 quests were completed <span className="good">successfully</span>. Evil
         players have a final opportunity to win the game by correctly naming
         which of the good players is Merlin.
       </p>

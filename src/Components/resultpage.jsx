@@ -9,30 +9,34 @@ const ResultPage = (props) => {
   const indexNextMission = parseInt(missionIndex, 10) + 1;
 
   const renderResults = () => {
-    return mission.votes.map((vote) => {
+    return mission.votes.map((vote, index) => {
       return vote === "Pass" ? (
-        <div className="pass-vote vote-container"></div>
+        <div key={index} className="pass-vote vote-container"></div>
       ) : (
-        <div className="fail-vote vote-container"></div>
+        <div key={index} className="fail-vote vote-container"></div>
       );
     });
   };
 
-  let checkWinCondition = (
-    missionSuccess,
-    missionFailure,
-    indexNextMission
-  ) => {
+  const checkWinCondition = (missionSuccess, missionFailure, indexNextMission) => {
     if (missionSuccess === 3) return "/killmerlin";
     if (missionFailure === 3) return "/endgame";
-    else return `/missions/${indexNextMission}`;
+    return `/missions/${indexNextMission}`;
   };
 
-  let getNextBtnDelay = (votes) => {
-    if (votes.length === 2) return "delay2";
-    if (votes.length === 3) return "delay3";
-    if (votes.length === 4) return "delay4";
-    if (votes.length === 5) return "delay5";
+  const getNextBtnDelay = (votes) => {
+    switch (votes.length) {
+      case 2:
+        return "delay2";
+      case 3:
+        return "delay3";
+      case 4:
+        return "delay4";
+      case 5:
+        return "delay5";
+      default:
+        return "";
+    }
   };
 
   return (

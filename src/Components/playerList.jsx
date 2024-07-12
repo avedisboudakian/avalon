@@ -1,14 +1,12 @@
 import React from "react";
 
-// display the players in an ordered list
-
 const PlayerList = (props) => {
   return (
-    <ol className="ml-5">
-      {props.players.map((players) => {
-        return <li key={players.id}>{players.name}</li>;
-      })}
-    </ol>
+    <ul className="players-list">
+      {props.players.map((player) => (
+        <li key={player.id}>{player.name}</li>
+      ))}
+    </ul>
   );
 };
 

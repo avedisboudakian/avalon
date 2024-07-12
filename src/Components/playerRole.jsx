@@ -156,6 +156,31 @@ class PlayerRole extends Component {
           </div>
         );
 
+      case "Lover":
+        return (
+          <div>
+            <p>
+              You are in love with{" "}
+              {
+                this.props.players.filter(
+                  (player) => player.role === "Lover" && player !== this.props.player
+                )[0].name
+              }
+              . Both of you must survive for the good guys to win.
+            </p>
+          </div>
+        );
+
+      case "Jester":
+        return (
+          <div>
+            <p>
+              Your goal is to be assassinated by the bad guys. If you are chosen
+              as Merlin, you win the game by yourself.
+            </p>
+          </div>
+        );
+
       default:
         return <p>Your role hasn't been assigned yet</p>;
     }
@@ -170,8 +195,13 @@ class PlayerRole extends Component {
         <p>your role is:</p>
         <p
           className={
-            role === "Good guy" || role === "Merlin" || role === "Percy"
+            role === "Good guy" ||
+            role === "Merlin" ||
+            role === "Percy" ||
+            role === "Lover"
               ? "good"
+              : role === "Jester"
+              ? "jester"
               : "bad"
           }
         >

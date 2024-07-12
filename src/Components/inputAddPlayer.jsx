@@ -3,18 +3,17 @@ import { Link } from "react-router-dom";
 
 const InputAddPlayer = (props) => {
   return (
-    <form className="d-flex m-3 form-group-row justify-content-center">
+    <form className="d-flex m-3 form-group-row justify-content-center" onSubmit={props.addPlayer}>
       <input
         type="text"
         className="input-group form-control-sm col-sm-6"
         placeholder="Type player name"
         value={props.inputAddPlayer}
         onChange={props.onChange}
-      ></input>
+      />
       <button
         type="submit"
-        className="btn btn-outline-light form-control-sm ml-2 mr-2 "
-        onClick={props.addPlayer}
+        className="btn btn-outline-light form-control-sm ml-2 mr-2"
       >
         +
       </button>
